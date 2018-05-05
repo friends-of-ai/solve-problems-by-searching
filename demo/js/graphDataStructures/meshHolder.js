@@ -159,18 +159,6 @@ class meshHolder {
     }
 
     /**
-     * Analyses the current node and mesh structure.
-     *
-     * @param width
-     * @param height
-     * @param border
-     */
-    analyseNodes(width, height, border) {
-        this.analyseBox(width, height, border);
-        this.calculateXY(width, height, border);
-    }
-
-    /**
      * Calculates the key from two nodes.
      *
      * @param start
@@ -181,58 +169,6 @@ class meshHolder {
         var arr = [start, target];
 
         return arr.sort().join(this.separator);
-    }
-
-    /**
-     * Calculates the real x, y value within the svg box.
-     *
-     * @param width
-     * @param height
-     * @param border
-     */
-    calculateXY(width, height, border) {
-        var innerHeight = height - 2 * border;
-
-        for (var index in this.nodes) {
-            var value = this.nodes[index];
-
-            this.nodes[index].posX = Math.round((value.x - this.box.minX) * this.box.scaleX + border);
-            this.nodes[index].posY = Math.round(innerHeight - (value.y - this.box.minY) * this.box.scaleY + border);
-        }
-    }
-
-    /**
-     * Analyses the box.
-     */
-    analyseBox(width, height, border) {
-        var innerHeight = height - 2 * border;
-        var innerWidth = width - 2 * border;
-
-        var self = this;
-
-        this.box = {
-            minY: 1000000,
-            maxY: 0,
-            minX: 1000000,
-            maxX: 0
-        }
-
-        /* analyse the places */
-        for (var index in this.nodes) {
-            var value = this.nodes[index];
-            this.box.minY = value.y < this.box.minY ? value.y : this.box.minY;
-            this.box.maxY = value.y > this.box.maxY ? value.y : this.box.maxY;
-            this.box.minX = value.x < this.box.minX ? value.x : this.box.minX;
-            this.box.maxX = value.x > this.box.maxX ? value.x : this.box.maxX;
-        }
-
-        this.box.distY = this.box.maxY - this.box.minY;
-        this.box.distX = this.box.maxX - this.box.minX;
-
-        this.box.scaleY = innerHeight / this.box.distY;
-        this.box.scaleX = innerWidth / this.box.distX;
-
-        return this.box;
     }
 
     /**

@@ -6,7 +6,7 @@ var onloadFunction = function () {
     var svgBorder = 50;
 
     var mh  = new meshHolder();
-    var svg = new svgBuilder(mh, svgHeight, svgWidth);
+    var svg = new svgBuilder(mh, svgHeight, svgWidth, svgBorder);
     var selectStartNodeId  = 'startNode';
     var selectTargetNodeId = 'targetNode';
     var bfs = new breadthFirstSearch(mh, svg, selectStartNodeId, selectTargetNodeId);
@@ -61,9 +61,6 @@ var onloadFunction = function () {
     mh.addConnection(stuttgart, frankfurt, 210);
     mh.addConnection(frankfurt, bonn, 173);
     mh.addConnection(bonn, koeln, 34);
-
-    /* analyse nodes (do this after adding all nodes and the mesh connections */
-    mh.analyseNodes(svgWidth, svgHeight, svgBorder);
 
     var startNode  = muenchen;
     var targetNode = rostock;

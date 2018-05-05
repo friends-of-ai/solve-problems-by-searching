@@ -12,7 +12,13 @@ class svgBuilder {
      * @param height
      * @param width
      */
-    constructor(meshHolderInstance, height, width) {
+    constructor(meshHolderInstance, height, width, border) {
+
+        this.box = {};
+
+        this.height = height;
+        this.width = width;
+        this.border = border;
 
         /* check the given parameter */
         if (!(meshHolderInstance instanceof meshHolder)) {
@@ -80,6 +86,38 @@ class svgBuilder {
     }
 
     /**
+     * Analyses the box.
+     */
+    analyseBox(nodes, width, height, border) {
+        var innerHeight = height - 2 * border;
+        var innerWidth = width - 2 * border;
+
+        this.box = {
+            minY: 1000000,
+            maxY: 0,
+            minX: 1000000,
+            maxX: 0
+        }
+
+        /* analyse the places */
+        for (var index in nodes) {
+            var value = nodes[index];
+            this.box.minY = value.y < this.box.minY ? value.y : this.box.minY;
+            this.box.maxY = value.y > this.box.maxY ? value.y : this.box.maxY;
+            this.box.minX = value.x < this.box.minX ? value.x : this.box.minX;
+            this.box.maxX = value.x > this.box.maxX ? value.x : this.box.maxX;
+        }
+
+        this.box.distY = this.box.maxY - this.box.minY;
+        this.box.distX = this.box.maxX - this.box.minX;
+
+        this.box.scaleY = innerHeight / this.box.distY;
+        this.box.scaleX = innerWidth / this.box.distX;
+
+        return this.box;
+    }
+
+    /**
      * Create all nodes from current node and mesh structure.
      */
     createNodes() {
@@ -87,22 +125,28 @@ class svgBuilder {
         var svgDocument = this.getDocument();
         var nodes = this.meshHolder.getNodes();
 
+        this.analyseBox(nodes, this.width, this.height, this.border);
+        var innerHeight = this.height - 2 * this.border;
+
         /* create nodes */
         for (var key in nodes) {
-            var value = nodes[key];
+            var node = nodes[key];
+
+            var x = Math.round((node.x - this.box.minX) * this.box.scaleX + this.border);
+            var y = Math.round(innerHeight - (node.y - this.box.minY) * this.box.scaleY + this.border);
 
             var circle = document.createElementNS(self.svgns, 'circle');
-            circle.setAttributeNS(null, 'cx', value.posX + 'px');
-            circle.setAttributeNS(null, 'cy', value.posY + 'px');
+            circle.setAttributeNS(null, 'cx', x + 'px');
+            circle.setAttributeNS(null, 'cy', y + 'px');
             circle.setAttributeNS(null, 'id', 'node-' + key);
             circle.setAttributeNS(null, 'r', 5);
             circle.setAttributeNS(null, 'style', 'fill: blue; stroke: blue; stroke-width: 1px;');
             svgDocument.appendChild(circle);
 
-            var theText = document.createTextNode(value.name);
+            var theText = document.createTextNode(node.name);
             var txtElem = document.createElementNS(self.svgns, 'text');
-            txtElem.setAttributeNS(null, 'x', (value.posX - 8) + 'px');
-            txtElem.setAttributeNS(null, 'y', (value.posY - 8) + 'px');
+            txtElem.setAttributeNS(null, 'x', (x - 8) + 'px');
+            txtElem.setAttributeNS(null, 'y', (y - 8) + 'px');
 
             txtElem.appendChild(theText);
             svgDocument.appendChild(txtElem);
@@ -118,14 +162,17 @@ class svgBuilder {
         var nodes = this.meshHolder.getNodes();
         var connections = this.meshHolder.getConnections();
 
+        this.analyseBox(nodes, this.width, this.height, this.border);
+        var innerHeight = this.height - 2 * this.border;
+
         for (var key in connections) {
             var distance = connections[key].cost;
             var keySplit = key.split(self.meshHolder.separator);
 
-            var x1 = nodes[keySplit[0]].posX;
-            var y1 = nodes[keySplit[0]].posY;
-            var x2 = nodes[keySplit[1]].posX;
-            var y2 = nodes[keySplit[1]].posY;
+            var x1 = Math.round((nodes[keySplit[0]].x - this.box.minX) * this.box.scaleX + this.border);
+            var y1 = Math.round(innerHeight - (nodes[keySplit[0]].y - this.box.minY) * this.box.scaleY + this.border);
+            var x2 = Math.round((nodes[keySplit[1]].x - this.box.minX) * this.box.scaleX + this.border);
+            var y2 = Math.round(innerHeight - (nodes[keySplit[1]].y - this.box.minY) * this.box.scaleY + this.border);
 
             var newLine = document.createElementNS(self.svgns, 'line');
             newLine.setAttribute('x1', x1 + 'px');
