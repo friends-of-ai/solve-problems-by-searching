@@ -1,6 +1,6 @@
 # Solve problems by searching
 
-A collection of algorithms to solve problems by searching.
+This framework to solve problems by searching provides you a collection of algorithms to do this.
 
 ## 1. Breadth-first Search - Search with Costs
 
