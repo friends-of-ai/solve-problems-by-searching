@@ -9,15 +9,9 @@ A collection of algorithms to solve problems by searching.
 Calculate the shortes way from Munich to Rostock:
 
 ```javascript
-/* some configs */
-var svgHeight = 600;
-var svgWidth  = 800;
-var svgBorder = 50;
-
 /* initiate the mesh holder, the svg builder and of course the breadth first search class */
 var mh  = new meshHolder();
-var svg = new svgBuilder(mh, svgHeight, svgWidth, svgBorder);
-var bfs = new breadthFirstSearch(mh, svg, 'startNode', 'targetNode');
+var bfs = new breadthFirstSearch(mh);
 
 /* add some nodes */
 var augsburg     = mh.addNode('Augsburg',     10.897789999999986, 48.37054490000000);
@@ -69,14 +63,24 @@ mh.addConnection(stuttgart,    frankfurt,    {cost: 210});
 mh.addConnection(frankfurt,    bonn,         {cost: 173});
 mh.addConnection(bonn,         koeln,        {cost:  34});
 
-var startNode  = muenchen;
-var targetNode = rostock;
-
 bfs.addCostFunction(function (currentNode, nextNode, connection) {
     return connection.cost;
 });
 
-bfs.calculateTreeAndRedraw(true);
+var tree = searchAlgorithm.calculateTree(muenchen, rostock);
+var optimalWay = searchAlgorithm.getOptimalWay(tree, targetNode);
+
+/* prints the result out */
+console.log(optimalWay);
+```
+
+The output of console.log looks like this:
+
+```javascript
+0: {name: "München", x: 11.581980499999986, y: 48.1351253}
+1: {name: "Dresden", x: 13.737262099999953, y: 51.05040880000001}
+2: {name: "Berlin", x: 13.404953999999975, y: 52.52000659999999}
+3: {name: "Rostock", x: 12.09914660000004, y: 54.0924406}
 ```
 
 ### 1.2 Result
