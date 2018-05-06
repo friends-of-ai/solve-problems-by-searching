@@ -101,4 +101,36 @@ class Search {
         /* redraw the mesh */
         this.svgBuilder.redraw(tree, targetNode);
     }
+
+    /**
+     * Mark the optimal path.
+     *
+     * @param tree
+     * @param targetPlace
+     */
+    getOptimalWay(tree, targetPlace) {
+        var node = targetPlace;
+
+        var resultNodes = [node];
+
+        while (true) {
+            if (typeof tree[node] === 'undefined') {
+                break;
+            }
+
+            node = tree[node];
+
+            resultNodes.push(node);
+        }
+
+        resultNodes.reverse();
+
+        var optimalWay = [];
+
+        for (var i = 0; i < resultNodes.length; i++) {
+            optimalWay.push(this.meshHolder.nodes[resultNodes[i]]);
+        }
+
+        return optimalWay;
+    }
 }

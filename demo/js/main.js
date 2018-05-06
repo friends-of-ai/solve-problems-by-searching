@@ -72,6 +72,11 @@ var onloadFunction = function () {
         return connection.cost;
     });
 
+    var tree = searchAlgorithm.calculateTree(startNode, targetNode);
+    var optimalWay = searchAlgorithm.getOptimalWay(tree, targetNode);
+
+    console.log(optimalWay);
+
     searchAlgorithm.calculateTreeAndRedraw(true);
 };
 
