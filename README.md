@@ -85,6 +85,6 @@ The output of console.log looks like this:
 
 ### 1.2 Result
 
-The graphic result:
+The following output shows the graphical result with the optimal way and all used connections to calculate it:
 
 [![Breadth-first Search](/images/breadth-first-search.png)](/images/breadth-first-search.png)
