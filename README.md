@@ -63,10 +63,12 @@ mh.addConnection(stuttgart,    frankfurt,    {cost: 210});
 mh.addConnection(frankfurt,    bonn,         {cost: 173});
 mh.addConnection(bonn,         koeln,        {cost:  34});
 
+/* it is a breadth first search - we only need a cost function to solve this problem */
 bfs.addCostFunction(function (currentNode, nextNode, connection) {
     return connection.cost;
 });
 
+/* do all the calculation stuff */
 var tree = searchAlgorithm.calculateTree(muenchen, rostock);
 var optimalWay = searchAlgorithm.getOptimalWay(tree, targetNode);
 
