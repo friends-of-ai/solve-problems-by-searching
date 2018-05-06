@@ -6,6 +6,8 @@ A collection of algorithms to solve problems by searching.
 
 ### 1.1 Implementation
 
+Calculate the shortes way from Munich to Rostock:
+
 ```javascript
 /* some configs */
 var svgHeight = 600;
@@ -78,5 +80,7 @@ bfs.calculateTreeAndRedraw(true);
 ```
 
 ### 1.2 Result
+
+The graphic result:
 
 [![Breadth-first Search](/images/breadth-first-search.png)](/images/breadth-first-search.png)
