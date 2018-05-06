@@ -31,42 +31,46 @@ var onloadFunction = function () {
     var rostock      = mh.addNode('Rostock',      12.099146600000040, 54.09244060000000);
     var stuttgart    = mh.addNode('Stuttgart',     9.182932100000016, 48.77584590000000);
 
-    mh.addConnection(dresden, leipzig, 120);
-    mh.addConnection(dresden, muenchen, 459);
-    mh.addConnection(dresden, stuttgart, 507);
-    mh.addConnection(dresden, berlin, 193);
-    mh.addConnection(leipzig, berlin, 190);
-    mh.addConnection(leipzig, magdeburg, 127);
-    mh.addConnection(leipzig, frankfurt, 391);
-    mh.addConnection(leipzig, koeln, 505);
-    mh.addConnection(berlin, rostock, 234);
-    mh.addConnection(berlin, braunschweig, 235);
-    mh.addConnection(berlin, potsdam, 35);
-    mh.addConnection(magdeburg, braunschweig, 99);
-    mh.addConnection(magdeburg, rostock, 298);
-    mh.addConnection(braunschweig, hamburg, 185);
-    mh.addConnection(braunschweig, augsburg, 588);
-    mh.addConnection(braunschweig, koeln, 363);
-    mh.addConnection(rostock, hamburg, 184);
-    mh.addConnection(rostock, kiel, 202);
-    mh.addConnection(hamburg, bremen, 126);
-    mh.addConnection(hamburg, kiel, 88);
-    mh.addConnection(hamburg, potsdam, 288);
-    mh.addConnection(bremen, frankfurt, 442);
-    mh.addConnection(bremen, koeln, 321);
-    mh.addConnection(bremen, augsburg, 722);
-    mh.addConnection(bremen, kiel, 207);
-    mh.addConnection(muenchen, augsburg, 80);
-    mh.addConnection(augsburg, stuttgart, 164);
-    mh.addConnection(stuttgart, frankfurt, 210);
-    mh.addConnection(frankfurt, bonn, 173);
-    mh.addConnection(bonn, koeln, 34);
+    mh.addConnection(dresden,      leipzig,      {cost: 120});
+    mh.addConnection(dresden,      muenchen,     {cost: 459});
+    mh.addConnection(dresden,      stuttgart,    {cost: 507});
+    mh.addConnection(dresden,      berlin,       {cost: 193});
+    mh.addConnection(leipzig,      berlin,       {cost: 190});
+    mh.addConnection(leipzig,      magdeburg,    {cost: 127});
+    mh.addConnection(leipzig,      frankfurt,    {cost: 391});
+    mh.addConnection(leipzig,      koeln,        {cost: 505});
+    mh.addConnection(berlin,       rostock,      {cost: 234});
+    mh.addConnection(berlin,       braunschweig, {cost: 235});
+    mh.addConnection(berlin,       potsdam,      {cost:  35});
+    mh.addConnection(magdeburg,    braunschweig, {cost:  99});
+    mh.addConnection(magdeburg,    rostock,      {cost: 298});
+    mh.addConnection(braunschweig, hamburg,      {cost: 185});
+    mh.addConnection(braunschweig, augsburg,     {cost: 588});
+    mh.addConnection(braunschweig, koeln,        {cost: 363});
+    mh.addConnection(rostock,      hamburg,      {cost: 184});
+    mh.addConnection(rostock,      kiel,         {cost: 202});
+    mh.addConnection(hamburg,      bremen,       {cost: 126});
+    mh.addConnection(hamburg,      kiel,         {cost:  88});
+    mh.addConnection(hamburg,      potsdam,      {cost: 288});
+    mh.addConnection(bremen,       frankfurt,    {cost: 442});
+    mh.addConnection(bremen,       koeln,        {cost: 321});
+    mh.addConnection(bremen,       augsburg,     {cost: 722});
+    mh.addConnection(bremen,       kiel,         {cost: 207});
+    mh.addConnection(muenchen,     augsburg,     {cost:  80});
+    mh.addConnection(augsburg,     stuttgart,    {cost: 164});
+    mh.addConnection(stuttgart,    frankfurt,    {cost: 210});
+    mh.addConnection(frankfurt,    bonn,         {cost: 173});
+    mh.addConnection(bonn,         koeln,        {cost:  34});
 
     var startNode  = muenchen;
     var targetNode = rostock;
 
     mh.addSelectOptions(selectStartNodeId, startNode,   function () { searchAlgorithm.calculateTreeAndRedraw(); });
     mh.addSelectOptions(selectTargetNodeId, targetNode, function () { searchAlgorithm.calculateTreeAndRedraw(); });
+
+    searchAlgorithm.addCostFunction(function (currentNode, nextNode, connection) {
+        return connection.cost;
+    });
 
     searchAlgorithm.calculateTreeAndRedraw(true);
 };

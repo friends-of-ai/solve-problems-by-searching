@@ -51,10 +51,14 @@ class meshHolder {
      * @param node2
      * @param cost
      */
-    addConnection(node1, node2, cost) {
+    addConnection(node1, node2, properties) {
         var key = this.getKey(node1, node2);
 
-        this.connections[key] = {node1: node1, node2: node2, cost: cost};
+        this.connections[key] = {node1: node1, node2: node2};
+
+        for (var index in properties) {
+            this.connections[key][index] = properties[index];
+        }
 
         this.addMesh(node1, node2);
     }

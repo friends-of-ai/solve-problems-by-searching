@@ -47,7 +47,12 @@ class breadthFirstSearch extends Search {
             for (var i = 0; i < mesh[currentPlace[1]].length; i++) {
                 var node = mesh[currentPlace[1]][i];
                 var key  = self.meshHolder.getKey(currentPlace[1], node);
-                var cost = self.meshHolder.getConnection(key).cost + currentPlace[0];
+                var cost = this.costFunction(
+                    self.meshHolder.nodes[currentPlace[1]],
+                    self.meshHolder.nodes[node],
+                    self.meshHolder.getConnection(key)
+                ) + currentPlace[0];
+
                 if ((node in currentCosts) && currentCosts[node] < cost) {
                     continue;
                 }

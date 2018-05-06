@@ -48,6 +48,41 @@ class Search {
     }
 
     /**
+     * Abstract method. The cost function.
+     *
+     * @param currentNode
+     * @param nextNode
+     * @param connection
+     */
+    costFunction(currentNode, nextNode, connection) {
+        throw new Error('Cannot call abstract method');
+    }
+
+    /**
+     * Method to add the cost function.
+     *
+     * @param costFunction
+     */
+    addCostFunction(costFunction) {
+        if (typeof costFunction !== 'function') {
+            throw new Error('The parameter costFunction from the method addCostFunction must be a function.');
+        }
+
+        this.costFunction = costFunction;
+    }
+
+    /**
+     * Abstract method. The heuristic function
+     *
+     * @param currentNode
+     * @param nextNode
+     * @param connection
+     */
+    heuristicFunction(currentNode, nextNode, connection) {
+        throw new Error('Cannot call abstract method');
+    }
+
+    /**
      * Calculate and redraw the tree.
      *
      * @param firstCall
