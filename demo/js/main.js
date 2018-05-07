@@ -80,8 +80,10 @@ var onloadFunction = function () {
     svg.initialize();
     svg.redraw(tree, targetNode);
 
+    /* add selections */
+    var select = new selectHelper(mh);
 
-    mh.addSelectOptions('startNode', startNode,   function () {
+    select.addSelectOptions('startNode', startNode, function () {
         var startNode  = document.getElementById('startNode').value;
         var targetNode = document.getElementById('targetNode').value;
 
@@ -89,7 +91,7 @@ var onloadFunction = function () {
 
         svg.redraw(tree, targetNode);
     });
-    mh.addSelectOptions('targetNode', targetNode, function () {
+    select.addSelectOptions('targetNode', targetNode, function () {
         var startNode  = document.getElementById('startNode').value;
         var targetNode = document.getElementById('targetNode').value;
 

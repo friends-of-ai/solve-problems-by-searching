@@ -174,37 +174,4 @@ class meshHolder {
 
         return arr.sort().join(this.separator);
     }
-
-    /**
-     * Adds options to given select-tag (from this nodes list).
-     *
-     * @param selectId
-     * @param selected
-     * @param changeFunc
-     */
-    addSelectOptions(selectId, selected, changeFunc) {
-        var sorted        = Object.keys(this.nodes).sort();
-        var selectTag     = document.getElementById(selectId);
-        var selectedIndex = 0;
-
-        /* create all options to select tag */
-        for (var i = 0; i < sorted.length; i++) {
-            var option = document.createElement('option');
-            option.value = sorted[i];
-            option.text = this.nodes[sorted[i]].name;
-
-            if (sorted[i] === selected) {
-                selectedIndex = i;
-            }
-
-            selectTag.add(option);
-        }
-
-        /* set selected option */
-        selectTag.selectedIndex = selectedIndex;
-
-        if (typeof changeFunc === 'function') {
-            document.getElementById(selectId).onchange = changeFunc;
-        }
-    }
 }
