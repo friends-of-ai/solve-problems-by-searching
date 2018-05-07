@@ -28,13 +28,62 @@ class Search {
     }
 
     /**
-     * Abstract method.
+     * Add the algorithm to calculate the tree.
      *
-     * @param startPlace
-     * @param targetPlace
+     * @param startNode
+     * @param targetNode
      */
-    calculateTree(startPlace, targetPlace) {
-        throw new Error('Cannot call abstract method');
+    calculateTree(startNode, targetNode) {
+        var tree         = {};
+        var currentCosts = {};
+        var currentList  = [[0, startNode]];
+        var self         = this;
+        var mesh         = this.meshHolder.getMesh();
+
+        currentCosts[startNode] = 0;
+
+        /* the Breadth-first Search - Search with Costs algorithm */
+        while (true) {
+            var currentPlace = currentList.shift();
+
+            /* the target place was found */
+            if (currentPlace[1] === targetNode) {
+                break;
+            }
+
+            /* add the new nodes connected to currentPlace */
+            for (var i = 0; i < mesh[currentPlace[1]].length; i++) {
+                var node = mesh[currentPlace[1]][i];
+                var key  = self.meshHolder.getKey(currentPlace[1], node);
+
+                var cost = currentPlace[0];
+
+                /* add cost (breadthFirstSearch and a*-search) */
+                if (['breadthFirstSearch'].indexOf(this.name) !== -1) {
+                    cost += this.costFunction(
+                        self.meshHolder.nodes[currentPlace[1]],
+                        self.meshHolder.nodes[node],
+                        self.meshHolder.getConnection(key)
+                    );
+                }
+
+                if ((node in currentCosts) && currentCosts[node] < cost) {
+                    continue;
+                }
+
+                currentList.push([cost, node]);
+                currentCosts[node] = cost;
+
+                tree[node] = currentPlace[1];
+            }
+
+            /* sort the FIFO list */
+            currentList.sort(function (a, b) {
+                return a[0] - b[0];
+            });
+        }
+
+        return tree;
     }
 
     /**
