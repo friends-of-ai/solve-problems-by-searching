@@ -4,7 +4,7 @@ This framework solves problems by searching. It provides you a collection of alg
 
 ## 1. Search Algorithms
 
-### 1.1 Preparations (initialize the data structure)
+### 1.0 Preparations (initialize the data structure)
 
 ```javascript
 /* initiate the mesh holder and of course the breadth first search class */
@@ -62,9 +62,9 @@ mh.addConnection(frankfurt,    bonn,         {cost: 173});
 mh.addConnection(bonn,         koeln,        {cost:  34});
 ```
 
-## 1. Breadth-first Search - Search with Costs
+### 1.1 Breadth-first Search - Search with Costs
 
-### 1.1 Implementation
+#### 1.1.1 Implementation
 
 Calculate the shortes way from Munich to Rostock:
 
@@ -91,7 +91,7 @@ The output of console.log looks like this:
 3: {name: "Rostock", x: 12.09914660000004, y: 54.0924406}
 ```
 
-### 1.2 Result
+### 1.1.2 Result
 
 You can find the demo from the example above here: [demo/breadth-first-search.html](demo/breadth-first-search.html) It prints the following output that shows the graphical result with the optimal way and all used connections to calculate it:
 
