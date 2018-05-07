@@ -9,7 +9,7 @@ This framework solves problems by searching. It provides you a collection of alg
 Calculate the shortes way from Munich to Rostock:
 
 ```javascript
-/* initiate the mesh holder, the svg builder and of course the breadth first search class */
+/* initiate the mesh holder and of course the breadth first search class */
 var mh  = new meshHolder();
 var bfs = new breadthFirstSearch(mh);
 
