@@ -7,7 +7,7 @@ This framework solves problems by searching. It provides you a collection of alg
 ### 1.0 Preparations (initialize the data structure)
 
 ```javascript
-/* initiate the mesh holder and of course the breadth first search class */
+/* initiate the mesh holder */
 var mh  = new meshHolder();
 
 /* add some nodes */
@@ -68,6 +68,9 @@ mh.addConnection(bonn,         koeln,        {cost:  34});
 Calculate the shortes way from Munich to Rostock:
 
 ```javascript
+/* initialize the breadth first search class */
+var bfs = new breadthFirstSearch(mh);
+
 /* it is a breadth first search - we only need a cost function to solve this problem */
 bfs.addCostFunction(function (currentNode, nextNode, connection) {
     return connection.cost;
