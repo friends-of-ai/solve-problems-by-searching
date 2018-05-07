@@ -6,11 +6,7 @@ var onloadFunction = function () {
     var svgBorder = 50;
 
     /* initiate the mesh holder and of course the breadth first search class */
-    var mh  = new meshHolder();
-    var bfs = new breadthFirstSearch(mh);
-
-    /* set breadthFirstSearch to bfs variable */
-    var searchAlgorithm = bfs;
+    var mh = new meshHolder();
 
     /* add some nodes */
     /* https://www.gps-coordinates.net/ */
@@ -65,6 +61,10 @@ var onloadFunction = function () {
 
     var startNode  = muenchen;
     var targetNode = rostock;
+
+    /* initialize the breadth first search class */
+    var bfs = new breadthFirstSearch(mh);
+    var searchAlgorithm = bfs;
 
     searchAlgorithm.addCostFunction(function (currentNode, nextNode, connection) {
         return connection.cost;
