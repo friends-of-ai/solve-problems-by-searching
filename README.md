@@ -2,11 +2,9 @@
 
 This framework solves problems by searching. It provides you a collection of algorithms to do so.
 
-## 1. Breadth-first Search - Search with Costs
+## 1. Search Algorithms
 
-### 1.1 Implementation
-
-Calculate the shortes way from Munich to Rostock:
+### 1.1 Preparations (initialize the data structure)
 
 ```javascript
 /* initiate the mesh holder and of course the breadth first search class */
@@ -62,7 +60,15 @@ mh.addConnection(augsburg,     stuttgart,    {cost: 164});
 mh.addConnection(stuttgart,    frankfurt,    {cost: 210});
 mh.addConnection(frankfurt,    bonn,         {cost: 173});
 mh.addConnection(bonn,         koeln,        {cost:  34});
+```
 
+## 1. Breadth-first Search - Search with Costs
+
+### 1.1 Implementation
+
+Calculate the shortes way from Munich to Rostock:
+
+```javascript
 /* it is a breadth first search - we only need a cost function to solve this problem */
 bfs.addCostFunction(function (currentNode, nextNode, connection) {
     return connection.cost;
