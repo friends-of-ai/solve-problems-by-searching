@@ -9,7 +9,6 @@ This framework solves problems by searching. It provides you a collection of alg
 ```javascript
 /* initiate the mesh holder and of course the breadth first search class */
 var mh  = new meshHolder();
-var bfs = new breadthFirstSearch(mh);
 
 /* add some nodes */
 var augsburg     = mh.addNode('Augsburg',     10.897789999999986, 48.37054490000000);
