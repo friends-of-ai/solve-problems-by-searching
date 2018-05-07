@@ -11,11 +11,8 @@ class Search {
      * The constructor of abstract Search class.
      *
      * @param meshHolderInstance
-     * @param svgBuilderInstance
-     * @param startNodeId
-     * @param targetNodeId
      */
-    constructor(meshHolderInstance, svgBuilderInstance, startNodeId, targetNodeId) {
+    constructor(meshHolderInstance) {
 
         /* do not instantiate this class directly  */
         if (this.constructor.name === 'Search') {
@@ -26,15 +23,8 @@ class Search {
         if (!(meshHolderInstance instanceof meshHolder)) {
             throw new Error('The given parameter meshHolderInstance must be an instance of meshHolder.');
         }
-        if (!(svgBuilderInstance instanceof svgBuilder)) {
-            throw new Error('The given parameter svgBuilderInstance must be an instance of svgBuilder.');
-        }
 
         this.meshHolder = meshHolderInstance;
-        this.svgBuilder = svgBuilderInstance;
-
-        this.startNodeId = startNodeId;
-        this.targetNodeId = targetNodeId;
     }
 
     /**
@@ -82,25 +72,25 @@ class Search {
         throw new Error('Cannot call abstract method');
     }
 
-    /**
-     * Calculate and redraw the tree.
-     *
-     * @param firstCall
-     */
-    calculateTreeAndRedraw(firstCall) {
-        var startNode = document.getElementById(this.startNodeId).value;
-        var targetNode = document.getElementById(this.targetNodeId).value;
-
-        if (firstCall) {
-            /* create the nodes and the mesh */
-            this.svgBuilder.createMeshAndNodes();
-        }
-
-        var tree = this.calculateTree(startNode, targetNode);
-
-        /* redraw the mesh */
-        this.svgBuilder.redraw(tree, targetNode);
-    }
+    // /**
+    //  * Calculate and redraw the tree.
+    //  *
+    //  * @param firstCall
+    //  */
+    // calculateTreeAndRedraw(firstCall) {
+    //     var startNode = document.getElementById(this.startNodeId).value;
+    //     var targetNode = document.getElementById(this.targetNodeId).value;
+    //
+    //     if (firstCall) {
+    //         /* create the nodes and the mesh */
+    //         this.svgBuilder.createMeshAndNodes();
+    //     }
+    //
+    //     var tree = this.calculateTree(startNode, targetNode);
+    //
+    //     /* redraw the mesh */
+    //     this.svgBuilder.redraw(tree, targetNode);
+    // }
 
     /**
      * Mark the optimal path.

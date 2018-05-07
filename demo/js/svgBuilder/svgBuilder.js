@@ -7,10 +7,12 @@
 class svgBuilder {
 
     /**
+     * The constructor of svgBuilder class.
      *
-     * @param meshHolder
+     * @param meshHolderInstance
      * @param height
      * @param width
+     * @param border
      */
     constructor(meshHolderInstance, height, width, border) {
 
@@ -51,11 +53,14 @@ class svgBuilder {
     }
 
     /**
-     * Draws the mesh and nodes.
+     * Creates the mesh and nodes.
+     *
+     * @param tree
+     * @param optimalWay
      */
-    createMeshAndNodes() {
-        this.createNodes();
+    initialize() {
         this.createMesh();
+        this.createNodes();
     }
 
     /**
@@ -79,10 +84,7 @@ class svgBuilder {
         this.reset();
 
         /* print tree */
-        this.printTree(tree);
-
-        /* print the ideal way */
-        this.markWayBackFromTarget(tree, targetNode);
+        this.printTree(tree, targetNode);
     }
 
     /**
@@ -198,12 +200,15 @@ class svgBuilder {
      * Prints the given tree.
      *
      * @param tree
+     * @param optimalWay
      */
-    printTree(tree) {
+    printTree(tree, targetNode) {
         for (var beforePlace in tree) {
             var key = this.meshHolder.getKey(beforePlace, tree[beforePlace]);
             document.getElementById('connection-' + key).setAttribute('stroke', 'red');
         }
+
+        this.markWayBackFromTarget(tree, targetNode);
     }
 
     /**
@@ -212,8 +217,8 @@ class svgBuilder {
      * @param tree
      * @param targetPlace
      */
-    markWayBackFromTarget(tree, targetPlace) {
-        var node = targetPlace;
+    markWayBackFromTarget(tree, targetNode) {
+        var node = targetNode;
 
         while (true) {
             if (typeof tree[node] === 'undefined') {

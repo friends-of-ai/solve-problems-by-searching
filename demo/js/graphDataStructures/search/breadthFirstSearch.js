@@ -10,12 +10,9 @@ class breadthFirstSearch extends Search {
      * The breadthFirstSearch constructor. Calls the constructor of extende Search class.
      *
      * @param meshHolder
-     * @param svgBuilder
-     * @param startNodeId
-     * @param targetNodeId
      */
-    constructor(meshHolder, svgBuilder, startNodeId, targetNodeId) {
-        super(meshHolder, svgBuilder, startNodeId, targetNodeId);
+    constructor(meshHolder) {
+        super(meshHolder);
         this.name = 'breadthFirstSearch';
     }
 

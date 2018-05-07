@@ -5,14 +5,14 @@ var onloadFunction = function () {
     var svgWidth  = 800;
     var svgBorder = 50;
 
+    /* initiate the mesh holder and of course the breadth first search class */
     var mh  = new meshHolder();
-    var svg = new svgBuilder(mh, svgHeight, svgWidth, svgBorder);
-    var selectStartNodeId  = 'startNode';
-    var selectTargetNodeId = 'targetNode';
-    var bfs = new breadthFirstSearch(mh, svg, selectStartNodeId, selectTargetNodeId);
+    var bfs = new breadthFirstSearch(mh);
 
+    /* set breadthFirstSearch to bfs variable */
     var searchAlgorithm = bfs;
 
+    /* add some nodes */
     /* https://www.gps-coordinates.net/ */
     var augsburg     = mh.addNode('Augsburg',     10.897789999999986, 48.37054490000000);
     var berlin       = mh.addNode('Berlin',       13.404953999999975, 52.52000659999999);
@@ -31,6 +31,7 @@ var onloadFunction = function () {
     var rostock      = mh.addNode('Rostock',      12.099146600000040, 54.09244060000000);
     var stuttgart    = mh.addNode('Stuttgart',     9.182932100000016, 48.77584590000000);
 
+    /* add some connections (with costs) */
     mh.addConnection(dresden,      leipzig,      {cost: 120});
     mh.addConnection(dresden,      muenchen,     {cost: 459});
     mh.addConnection(dresden,      stuttgart,    {cost: 507});
@@ -65,9 +66,6 @@ var onloadFunction = function () {
     var startNode  = muenchen;
     var targetNode = rostock;
 
-    mh.addSelectOptions(selectStartNodeId, startNode,   function () { searchAlgorithm.calculateTreeAndRedraw(); });
-    mh.addSelectOptions(selectTargetNodeId, targetNode, function () { searchAlgorithm.calculateTreeAndRedraw(); });
-
     searchAlgorithm.addCostFunction(function (currentNode, nextNode, connection) {
         return connection.cost;
     });
@@ -77,7 +75,28 @@ var onloadFunction = function () {
 
     console.log(optimalWay);
 
-    searchAlgorithm.calculateTreeAndRedraw(true);
+    /* create svg class and draw the mesh and nodes */
+    var svg = new svgBuilder(mh, svgHeight, svgWidth, svgBorder);
+    svg.initialize();
+    svg.redraw(tree, targetNode);
+
+
+    mh.addSelectOptions('startNode', startNode,   function () {
+        var startNode  = document.getElementById('startNode').value;
+        var targetNode = document.getElementById('targetNode').value;
+
+        var tree = searchAlgorithm.calculateTree(startNode, targetNode);
+
+        svg.redraw(tree, targetNode);
+    });
+    mh.addSelectOptions('targetNode', targetNode, function () {
+        var startNode  = document.getElementById('startNode').value;
+        var targetNode = document.getElementById('targetNode').value;
+
+        var tree = searchAlgorithm.calculateTree(startNode, targetNode);
+
+        svg.redraw(tree, targetNode);
+    });
 };
 
 document.addEventListener('DOMContentLoaded', onloadFunction, false);
