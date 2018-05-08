@@ -69,16 +69,16 @@ Calculate the shortes way from Munich to Rostock:
 
 ```javascript
 /* initialize the breadth first search class */
-var bfs = new breadthFirstSearch(mh);
+var as = new breadthFirstSearch(mh);
 
 /* it is a breadth first search - we only need a cost function to solve this problem */
-bfs.addCostFunction(function (currentNode, nextNode, connection) {
+as.addCostFunction(function (currentNode, nextNode, targetNode, connection) {
     return connection.cost;
 });
 
 /* do all the calculation stuff */
-var tree = searchAlgorithm.calculateTree(muenchen, rostock);
-var optimalWay = searchAlgorithm.getOptimalWay(tree, targetNode);
+var tree = as.calculateTree(muenchen, rostock);
+var optimalWay = as.getOptimalWay(tree, targetNode);
 
 /* prints the result out */
 console.log(optimalWay);
@@ -102,8 +102,79 @@ You can find the demo from the example above here: [demo/breadth-first-search.ht
 
 ### 1.2 Greedy search
 
-TODO...
+#### 1.2.1 Implementation
+
+Calculate the shortes way from Munich to Rostock:
+
+```javascript
+/* initialize the breadth first search class */
+var as = new greedySearch(mh);
+
+/* it is a breadth first search - we only need a cost function to solve this problem */
+as.addHeuristicFunction(function (currentNode, nextNode, targetNode, connection) {
+    return distance.fromLatLonInKm(currentNode.x, currentNode.y, targetNode.x, targetNode.y);
+});
+
+/* do all the calculation stuff */
+var tree = as.calculateTree(muenchen, rostock);
+var optimalWay = as.getOptimalWay(tree, targetNode);
+
+/* prints the result out */
+console.log(optimalWay);
+```
+
+The output of console.log looks like this:
+
+```javascript
+0: {name: "München", x: 11.581980499999986, y: 48.1351253}
+1: {name: "Dresden", x: 13.737262099999953, y: 51.05040880000001}
+2: {name: "Berlin", x: 13.404953999999975, y: 52.52000659999999}
+3: {name: "Rostock", x: 12.09914660000004, y: 54.0924406}
+```
+
+#### 1.2.2 Result
+
+You can find the demo from the example above here: [demo/greedy-search.html](demo/greedy-search.html) It prints out the following output that shows the graphical result with the optimal way and all used connections to calculate it:
+
+[![Greedy Search](/images/greedy-search.png)](/images/greedy-search.png)
 
 ### 1.3 A* search
 
-TODO...
+#### 1.3.1 Implementation
+
+Calculate the shortes way from Munich to Rostock:
+
+```javascript
+/* initialize the breadth first search class */
+var as = new breadthFirstSearch(mh);
+
+/* it is a breadth first search - we only need a cost function to solve this problem */
+as.addCostFunction(function (currentNode, nextNode, targetNode, connection) {
+    return connection.cost;
+});
+as.addHeuristicFunction(function (currentNode, nextNode, targetNode, connection) {
+    return distance.fromLatLonInKm(currentNode.x, currentNode.y, targetNode.x, targetNode.y);
+});
+
+/* do all the calculation stuff */
+var tree = as.calculateTree(muenchen, rostock);
+var optimalWay = as.getOptimalWay(tree, targetNode);
+
+/* prints the result out */
+console.log(optimalWay);
+```
+
+The output of console.log looks like this:
+
+```javascript
+0: {name: "München", x: 11.581980499999986, y: 48.1351253}
+1: {name: "Dresden", x: 13.737262099999953, y: 51.05040880000001}
+2: {name: "Berlin", x: 13.404953999999975, y: 52.52000659999999}
+3: {name: "Rostock", x: 12.09914660000004, y: 54.0924406}
+```
+
+#### 1.3.2 Result
+
+You can find the demo from the example above here: [demo/a-star-search.html](demo/a-star-search.html) It prints out the following output that shows the graphical result with the optimal way and all used connections to calculate it:
+
+[![Greedy Search](/images/a-star-search.png)](/images/a-star-search.png)
