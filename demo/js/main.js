@@ -59,30 +59,14 @@ var onloadFunction = function () {
     mh.addConnection(frankfurt,    bonn,         {cost: 173});
     mh.addConnection(bonn,         koeln,        {cost:  34});
 
+
+    /* start and target node */
     var startNode  = muenchen;
     var targetNode = rostock;
 
-    /* initialize the breadth first search class */
-    var bfs = new breadthFirstSearch(mh);
-    var searchAlgorithm = bfs;
 
-    searchAlgorithm.addCostFunction(function (currentNode, nextNode, connection) {
-        return connection.cost;
-    });
-
-    var tree = searchAlgorithm.calculateTree(startNode, targetNode);
-    var optimalWay = searchAlgorithm.getOptimalWay(tree, targetNode);
-
-    console.log(optimalWay);
-
-    /* create svg class and draw the mesh and nodes */
-    var svg = new svgBuilder(mh, svgHeight, svgWidth, svgBorder);
-    svg.initialize();
-    svg.redraw(tree, targetNode);
-
-    /* add selections */
+    /* add selections with their onchange events */
     var select = new selectHelper(mh);
-
     select.addSelectOptions('startNode', startNode, function () {
         var startNode  = document.getElementById('startNode').value;
         var targetNode = document.getElementById('targetNode').value;
@@ -99,6 +83,19 @@ var onloadFunction = function () {
 
         svg.redraw(tree, targetNode);
     });
+
+    /* get the search algorithm and calculate the tree */
+    var sa = searchAlgorithm(mh);
+    var tree = sa.calculateTree(startNode, targetNode);
+    var optimalWay = sa.getOptimalWay(tree, targetNode);
+
+    /* prints the optimal way to console */
+    console.log(optimalWay);
+
+    /* create svg class and draw the mesh and nodes */
+    var svg = new svgBuilder(mh, svgHeight, svgWidth, svgBorder);
+    svg.initialize();
+    svg.redraw(tree, targetNode);
 };
 
 document.addEventListener('DOMContentLoaded', onloadFunction, false);

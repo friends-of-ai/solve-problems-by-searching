@@ -28,6 +28,56 @@ class Search {
     }
 
     /**
+     * Abstract method. The cost function.
+     *
+     * @param currentNode
+     * @param nextNode
+     * @param targetNode
+     * @param connection
+     */
+    costFunction(currentNode, nextNode, targetNode, connection) {
+        throw new Error('Cannot call abstract method');
+    }
+
+    /**
+     * Method to add the cost function.
+     *
+     * @param costFunction
+     */
+    addCostFunction(costFunction) {
+        if (typeof costFunction !== 'function') {
+            throw new Error('The parameter costFunction from the method addCostFunction must be a function.');
+        }
+
+        this.costFunction = costFunction;
+    }
+
+    /**
+     * Abstract method. The heuristic function
+     *
+     * @param currentNode
+     * @param nextNode
+     * @param targetNode
+     * @param connection
+     */
+    heuristicFunction(currentNode, nextNode, targetNode, connection) {
+        throw new Error('Cannot call abstract method');
+    }
+
+    /**
+     * Method to add the cost function.
+     *
+     * @param costFunction
+     */
+    addHeuristicFunction(heuristicFunction) {
+        if (typeof heuristicFunction !== 'function') {
+            throw new Error('The parameter heuristicFunction from the method addHeuristicFunction must be a function.');
+        }
+
+        this.heuristicFunction = heuristicFunction;
+    }
+
+    /**
      * Add the algorithm to calculate the tree.
      *
      * @param startNode
@@ -56,17 +106,32 @@ class Search {
                 var node = mesh[currentPlace[1]][i];
                 var key  = self.meshHolder.getKey(currentPlace[1], node);
 
+                /* add current cost */
                 var cost = currentPlace[0];
 
-                /* add cost (breadthFirstSearch and a*-search) */
-                if (['breadthFirstSearch'].indexOf(this.name) !== -1) {
+                /* add cost (breadthFirstSearch and aStarSearch) */
+                if (['breadthFirstSearch', 'aStarSearch'].indexOf(this.name) !== -1) {
                     cost += this.costFunction(
                         self.meshHolder.nodes[currentPlace[1]],
                         self.meshHolder.nodes[node],
+                        self.meshHolder.nodes[targetNode],
                         self.meshHolder.getConnection(key)
                     );
                 }
 
+                /* add heuristic cost (greedySearch and aStarSearch) */
+                if (['greedySearch', 'aStarSearch'].indexOf(this.name) !== -1) {
+                    cost += this.heuristicFunction(
+                        self.meshHolder.nodes[currentPlace[1]],
+                        self.meshHolder.nodes[node],
+                        self.meshHolder.nodes[targetNode],
+                        self.meshHolder.getConnection(key)
+                    );
+                }
+
+                /* if we have already reached this node and the costs to this node are lower than the current cost:
+                 * stop here (avoid loops)
+                 */
                 if ((node in currentCosts) && currentCosts[node] < cost) {
                     continue;
                 }
@@ -87,62 +152,7 @@ class Search {
     }
 
     /**
-     * Abstract method. The cost function.
-     *
-     * @param currentNode
-     * @param nextNode
-     * @param connection
-     */
-    costFunction(currentNode, nextNode, connection) {
-        throw new Error('Cannot call abstract method');
-    }
-
-    /**
-     * Method to add the cost function.
-     *
-     * @param costFunction
-     */
-    addCostFunction(costFunction) {
-        if (typeof costFunction !== 'function') {
-            throw new Error('The parameter costFunction from the method addCostFunction must be a function.');
-        }
-
-        this.costFunction = costFunction;
-    }
-
-    /**
-     * Abstract method. The heuristic function
-     *
-     * @param currentNode
-     * @param nextNode
-     * @param connection
-     */
-    heuristicFunction(currentNode, nextNode, connection) {
-        throw new Error('Cannot call abstract method');
-    }
-
-    // /**
-    //  * Calculate and redraw the tree.
-    //  *
-    //  * @param firstCall
-    //  */
-    // calculateTreeAndRedraw(firstCall) {
-    //     var startNode = document.getElementById(this.startNodeId).value;
-    //     var targetNode = document.getElementById(this.targetNodeId).value;
-    //
-    //     if (firstCall) {
-    //         /* create the nodes and the mesh */
-    //         this.svgBuilder.createMeshAndNodes();
-    //     }
-    //
-    //     var tree = this.calculateTree(startNode, targetNode);
-    //
-    //     /* redraw the mesh */
-    //     this.svgBuilder.redraw(tree, targetNode);
-    // }
-
-    /**
-     * Mark the optimal path.
+     * Returns the optimal way (the nodes of the way).
      *
      * @param tree
      * @param targetPlace
